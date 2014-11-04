@@ -1,0 +1,1 @@
+docker run -p 8080:8080 -v `pwd`/squid.conf:/etc/squid3/squid.conf -v `pwd`:/docker -w /docker --rm -i -t squid /bin/bash

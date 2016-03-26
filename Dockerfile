@@ -4,23 +4,18 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN locale-gen en_US en_US.UTF-8
 ENV LANG en_US.UTF-8
+ENV TERM xterm
+RUN echo "export PS1='\e[1;31m\]\u@\h:\w\\$\[\e[0m\] '" >> /root/.bashrc
 
-#Runit
+# Runit
 RUN apt-get install -y runit 
-CMD /usr/sbin/runsvdir-start
+CMD export > /etc/envvars && /usr/sbin/runsvdir-start
+RUN echo 'export > /etc/envvars' >> /root/.bashrc
 
-#SSHD
-RUN apt-get install -y openssh-server && \
-    mkdir -p /var/run/sshd && \
-    echo 'root:root' |chpasswd
-RUN sed -i "s/session.*required.*pam_loginuid.so/#session    required     pam_loginuid.so/" /etc/pam.d/sshd
-RUN sed -i "s/PermitRootLogin without-password/#PermitRootLogin without-password/" /etc/ssh/sshd_config
-
-#Utilities
-RUN apt-get install -y vim less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common
+# Utilities
+RUN apt-get install -y vim less net-tools inetutils-ping wget curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common jq psmisc
 
 RUN apt-get install -y squid
 
-#Add runit services
-ADD sv /etc/service 
-
+# Add runit services
+COPY sv /etc/service 

@@ -1,1 +1,1 @@
-docker run -v /var/log:/var/log -d -t ssh
+docker run -d -p 8080:8080 -v `pwd`/squid.conf:/etc/squid3/squid.conf -v `pwd`:/docker -w /docker -t squid

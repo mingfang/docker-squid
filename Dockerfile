@@ -17,5 +17,7 @@ RUN apt-get install -y vim less net-tools inetutils-ping wget curl git telnet nm
 
 RUN apt-get install -y squid
 
+COPY squid.conf /etc/squid3/
+
 # Add runit services
 COPY sv /etc/service 

@@ -1,7 +1,0 @@
-#!/bin/sh
-
-#sv start socklog-unix || exit 1
-squid3 -z
-
-exec 2>&1
-exec squid3 -s -N

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#sv start socklog-unix || exit 1
+
+mkdir -p /var/spool/squid
+
+chown proxy: /var/log/squid
+chown proxy: /var/cache/squid
+chown proxy: /var/spool/squid
+
+squid -N -z
+
+exec 2>&1
+exec squid -N -s
